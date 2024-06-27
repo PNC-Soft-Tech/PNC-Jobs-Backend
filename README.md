@@ -53,7 +53,7 @@ Logs in a user and returns a JWT token.
 
   ```json
   {
-    "email": "john.doe@example.com",
+    "identifier": "john.doe@example.com",
     "password": "securepassword"
   }
 
