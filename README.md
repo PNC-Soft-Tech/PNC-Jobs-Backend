@@ -39,3 +39,21 @@ Creates a new user.
     "pro_pic": "http://example.com/profile.jpg",
     "about_me": "Hello, I am John."
   }
+
+
+  ### User Login
+
+#### POST `/users/login`
+
+Logs in a user and returns a JWT token.
+
+- **URL:** `/users/login`
+- **Method:** `POST`
+- **Request Body:**
+
+  ```json
+  {
+    "email": "john.doe@example.com",
+    "password": "securepassword"
+  }
+
