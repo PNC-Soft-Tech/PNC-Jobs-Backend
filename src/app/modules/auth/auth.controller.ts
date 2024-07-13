@@ -8,7 +8,9 @@ import config from "../../../config";
 
 export const createUser = catchAsync(async (req: Request, res: Response) => {
   const checkUserEmail = await User.find({ email: req.body.email }).lean();
-  const checkUsername = await User.find({ username: req.body.username }).lean();
+  const checkUsername: any = await User.find({
+    username: req.body.username,
+  }).lean();
 
   if (checkUserEmail.length > 0) {
     return res.status(400).send({
@@ -25,7 +27,7 @@ export const createUser = catchAsync(async (req: Request, res: Response) => {
   }
 
   const result = await UserService.createUser(req.body);
-  const { password, ...others } = result;
+  const { password, ...others } = result.toObject();
   res.json({
     success: true,
     message: "Successfully created user",
@@ -46,9 +48,9 @@ export const createUser = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const loginUser = catchAsync(async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { password, identifier } = req.body;
 
-  const { user, token } = await UserService.loginUser(email, password);
+  const { user, token } = await UserService.loginUser(identifier, password);
 
   res.json({
     success: true,

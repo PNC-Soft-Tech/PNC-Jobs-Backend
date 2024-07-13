@@ -4,6 +4,7 @@ import { IUser } from "./auth.interface";
 import User from "./auth.model";
 import { jwtHelpers } from "../../../utils/auth";
 import config from "../../../config";
+import AppError from "../../../error/AppError";
 
 export class UserService {
   static async createUser(data: Partial<IUser>): Promise<IUser> {
@@ -30,15 +31,19 @@ export class UserService {
     return await User.findByIdAndDelete(id);
   }
 
-  static async loginUser(email: string, password: string) {
-    const user = await User.findOne({ email }).lean();
+  static async loginUser(identifier: string, password: string) {
+    // Find user by email or username
+    const user = await User.findOne({
+      $or: [{ email: identifier }, { username: identifier }],
+    }).lean();
+
     if (!user) {
-      throw new Error("Invalid email or password");
+      throw new AppError(400, "Invalid email/username or password");
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      throw new Error("Invalid email or password");
+      throw new AppError(400, "Invalid email/username or password");
     }
 
     const token = jwtHelpers.createToken(

@@ -18,7 +18,7 @@ export const auth =
       if (!token) {
         throw new AppError(httpStatus.UNAUTHORIZED, "You are not authorized");
       }
-        // console.log('token found')
+      // console.log('token found')
       if (token.includes("Bearer")) {
         // console.log("jwt token value=>>>>>>", token);
         token = token.split(" ")[1];
@@ -30,19 +30,21 @@ export const auth =
       verified = jwtHelpers.verifyToken(token, config.jwt_secret as Secret);
       // console.log('verified: ', verified)
       const id = verified?._id;
-      let verifiedUser = await User.findById({ _id: id });
+      let verifiedUser: any = await User.findById({ _id: id });
 
-      // console.log("verified-user: ", verifiedUser);
+      if (!verifiedUser) {
+        throw new AppError(404, "User Not Found");
+      }
+
       req.user = verifiedUser;
 
-      // if (
-      //   requiredRoles.length &&
-      //   !requiredRoles.some((value) => verifiedUser?.authority?.includes(value) &&
-
-      // )
-      // ) {
-      //   throw new AppError(httpStatus.FORBIDDEN, "Forbidden");
-      // }
+      if (
+        requiredRoles.length &&
+        !requiredRoles.includes(verifiedUser.userRole)
+      ) {
+        // console.log("verified-user", verifiedUser.userRole);
+        throw new AppError(httpStatus.FORBIDDEN, "Forbidden");
+      }
       next();
     } catch (error) {
       next(error);

@@ -14,6 +14,7 @@ import { messageRouter } from "./app/modules/message/message.route";
 import { chatsRouter } from "./app/modules/chat/chats.route";
 import errorhandler from "errorhandler";
 import config from "./config";
+import { postRouter } from "./app/modules/Post/post.route";
 
 const app = express();
 
@@ -25,13 +26,10 @@ if (config.node_env === "development") {
   app.use(errorhandler());
 }
 
-// Global error handler
-app.use(errorHandler);
-
-app.use(morgan("dev"));
 app.use("/api/v1/photos", photoRouter);
 app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/posts", postRouter);
 app.use("/api/v1/favorites", favoriteRouter);
 app.use("/api/v1/groups", groupRouter);
 app.use("/api/v1/chats", chatsRouter);
@@ -42,6 +40,9 @@ app.use("/api/v1/payments", PaymentsRouter);
 app.get("/", (req: Request, res: Response) => {
   res.send("welcome");
 });
+
+// Global error handler
+app.use(errorHandler);
 // Route not found (404 handler)
 app.use((req: Request, res: Response, next: NextFunction) => {
   const err = new AppError(404, `Not Found - ${req.originalUrl}`);
