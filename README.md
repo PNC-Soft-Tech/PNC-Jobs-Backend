@@ -23,7 +23,7 @@ Create a new post to find suitable students for tutoring.
   "title": "Math Tutor Needed",
   "description": "Looking for a tutor for 5th grade math.",
   "class": "5th",
-  "subject": "Math",
+  "subject": ["math"],
   "experience": 2,
   "salary": 30,
   "number_of_days_of_week": 3,
