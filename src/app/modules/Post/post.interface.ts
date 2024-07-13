@@ -5,7 +5,7 @@ export interface IPost extends Document {
   title: string;
   description: string;
   class: string;
-  subject: string;
+  subject: [];
   experience: number;
   salary: number;
   number_of_days_of_week: number;

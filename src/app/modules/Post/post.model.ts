@@ -34,8 +34,7 @@ const postSchema = new Schema<IPost>(
       ],
     },
     subject: {
-      type: String,
-      required: [true, "Subject is required"],
+      type: [],
     },
     experience: {
       type: Number,

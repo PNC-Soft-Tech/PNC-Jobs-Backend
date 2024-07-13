@@ -28,7 +28,7 @@ export const postSchema = z.object({
           "Class must be one of the following: 1st, 2nd, 3rd, 4th, 5th, 6th, 7th, 8th, 9th, 10th, 11th, 12th",
       }
     ),
-  subject: z.string().min(1, { message: "Subject is required" }),
+  subject: z.array(z.string()),
   experience: z
     .number()
     .min(0, { message: "Experience must be a non-negative number" }),
@@ -76,7 +76,7 @@ export const updatePostSchema = z.object({
       }
     )
     .optional(), // Optional field for the class
-  subject: z.string().min(1, { message: "Subject is required" }).optional(), // Optional field for the subject
+  subject: z.array(z.string()).optional(), // Optional field for the subject
   experience: z
     .number()
     .min(0, { message: "Experience must be a non-negative number" })
