@@ -8,11 +8,11 @@ https://easy-tution.vercel.app/api/v1
 
 ## Endpoints
 
-**POST** `/api/v1/posts`[Bearer token must be added] create
-**PUT** `/api/v1/posts/:id`[Bearer token must be added] update
-**GET** `/api/v1/posts/:id`[Bearer token must be added] get single
-**GET** `/api/v1/posts/`[Bearer token must be added] get all
-**DELETE** `/api/v1/posts/`[Bearer token must be added] delete post
+## **POST** `/api/v1/posts`[Bearer token must be added] create \
+## **PUT** `/api/v1/posts/:id`[Bearer token must be added] update \n
+## **GET** `/api/v1/posts/:id`[Bearer token must be added] get single \n
+## **GET** `/api/v1/posts/`[Bearer token must be added] get all \n
+## **DELETE** `/api/v1/posts/`[Bearer token must be added] delete post \n
 
 Create a new post to find suitable students for tutoring.
 
