@@ -5,8 +5,8 @@ import { IUser } from "./auth.interface";
 // Define the schema corresponding to the document interface.
 const UserSchema: Schema<IUser> = new Schema<IUser>({
   username: { type: String, required: true, unique: true },
-  fname: { type: String, required: true },
-  lname: { type: String, required: true },
+  fname: { type: String, required: false },
+  lname: { type: String, required: false },
   email: { type: String, required: true, unique: true },
   phone: { type: String, required: false, unique: true },
   password: { type: String, required: true, minlength: 4 },
