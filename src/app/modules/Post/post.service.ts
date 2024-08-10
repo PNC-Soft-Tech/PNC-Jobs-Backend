@@ -7,7 +7,9 @@ class PostService {
   }
 
   public async getAllPosts() {
-    return await Post.find().populate("user");
+    return await Post.find().populate("user").sort({
+      createdAt: -1,
+    });
   }
 
   public async getPostById(postId: string) {

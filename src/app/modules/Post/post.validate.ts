@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { classes, postTypes } from "./post.constant";
 
 // Define the Post schema
 export const postSchema = z.object({
@@ -28,6 +29,13 @@ export const postSchema = z.object({
           "Class must be one of the following: 1st, 2nd, 3rd, 4th, 5th, 6th, 7th, 8th, 9th, 10th, 11th, 12th",
       }
     ),
+  post_type: z
+    .string()
+    .refine((value) => postTypes.includes(value), {
+      message: "Post type follows the following:tutor,tution",
+    })
+    .optional(),
+  days: z.array(z.string()).optional(),
   subject: z.array(z.string()),
   experience: z
     .number()
@@ -54,27 +62,10 @@ export const updatePostSchema = z.object({
   class: z
     .string()
     .min(1, { message: "Class is required" })
-    .refine(
-      (value) =>
-        [
-          "1st",
-          "2nd",
-          "3rd",
-          "4th",
-          "5th",
-          "6th",
-          "7th",
-          "8th",
-          "9th",
-          "10th",
-          "11th",
-          "12th",
-        ].includes(value),
-      {
-        message:
-          "Class must be one of the following: 1st, 2nd, 3rd, 4th, 5th, 6th, 7th, 8th, 9th, 10th, 11th, 12th",
-      }
-    )
+    .refine((value) => classes.includes(value), {
+      message:
+        "Class must be one of the following: 1st, 2nd, 3rd, 4th, 5th, 6th, 7th, 8th, 9th, 10th, 11th, 12th",
+    })
     .optional(), // Optional field for the class
   subject: z.array(z.string()).optional(), // Optional field for the subject
   experience: z
@@ -91,6 +82,14 @@ export const updatePostSchema = z.object({
     .min(1, { message: "Number of days of week must be at least 1" })
     .max(7, { message: "Number of days of week can be at most 7" })
     .optional(), // Optional field for the number of days of the week
+
+  post_type: z
+    .string()
+    .refine((value) => postTypes.includes(value), {
+      message: "Post type follows the following:tutor,tution",
+    })
+    .optional(),
+  days: z.array(z.string()).optional(),
 });
 
 export type UpdatePost = z.infer<typeof updatePostSchema>;

@@ -1,5 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 import { IPost } from "./post.interface";
+import { classes, postTypes } from "./post.constant";
 
 // Define the Post schema
 const postSchema = new Schema<IPost>(
@@ -18,24 +19,17 @@ const postSchema = new Schema<IPost>(
       type: String,
       required: [true, "Class is required"],
       minlength: 1, // Ensure the class is not empty
-      enum: [
-        "1st",
-        "2nd",
-        "3rd",
-        "4th",
-        "5th",
-        "6th",
-        "7th",
-        "8th",
-        "9th",
-        "10th",
-        "11th",
-        "12th",
-      ],
+      enum: classes,
     },
     subject: {
       type: [],
     },
+    post_type: {
+      type: String,
+      enum: postTypes,
+      default: "tution",
+    },
+    days: [],
     experience: {
       type: Number,
       required: [true, "Experience is required"],

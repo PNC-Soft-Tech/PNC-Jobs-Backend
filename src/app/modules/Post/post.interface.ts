@@ -6,6 +6,8 @@ export interface IPost extends Document {
   description: string;
   class: string;
   subject: [];
+  days: [];
+  post_type: string;
   experience: number;
   salary: number;
   number_of_days_of_week: number;
