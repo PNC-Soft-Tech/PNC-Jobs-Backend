@@ -4,7 +4,7 @@ This API provides endpoints for managing users, including creating, reading, upd
 
 ## Base URL
 
-https://pncjobsserver-anichus-projects.vercel.app/api/v1
+https://pnc-jobs-server.vercel.app/api/v1
 
 ### User Registration
 
@@ -24,18 +24,7 @@ Creates a new user.
     "email": "john.doe@example.com",
     "phone": "1234567890",
     "password": "securepassword",
-    "authType": "local",
-    "otp": "123456",
-    "isVerified": true,
-    "institute": "Example University",
-    "userType": "student",
-    "dob": "1990-01-01",
-    "dist": "Example District",
-    "upzilla": "Example Upzilla",
-    "div": "Example Division",
-    "country": "BD",
-    "pro_pic": "http://example.com/profile.jpg",
-    "about_me": "Hello, I am John."
+
   }
 
 
