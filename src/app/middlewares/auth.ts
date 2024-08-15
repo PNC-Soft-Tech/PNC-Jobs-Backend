@@ -16,7 +16,7 @@ export const auth =
         req.headers.jwt;
 
       if (!token) {
-        throw new AppError(httpStatus.UNAUTHORIZED, "You are not authorized");
+        next(AppError.unauthorized("You are not authorized"));
       }
       // console.log('token found')
       if (token.includes("Bearer")) {
@@ -33,7 +33,8 @@ export const auth =
       let verifiedUser: any = await User.findById({ _id: id });
 
       if (!verifiedUser) {
-        throw new AppError(404, "User Not Found");
+        // throw new AppError(404, "User Not Found");
+        next(AppError.notFound("User Not Found"));
       }
 
       req.user = verifiedUser;
@@ -43,7 +44,8 @@ export const auth =
         !requiredRoles.includes(verifiedUser.userRole)
       ) {
         // console.log("verified-user", verifiedUser.userRole);
-        throw new AppError(httpStatus.FORBIDDEN, "Forbidden");
+        // throw new AppError(httpStatus.FORBIDDEN, "Forbidden");
+        next(AppError.forbidden("Forbidden"));
       }
       next();
     } catch (error) {

@@ -3,39 +3,54 @@ import http from "http";
 import "colors";
 import config from "./index";
 import app from "../app";
-import { registerSocketServer } from "../socketServer";
 
-export async function connectDb() {
-  let server: any;
+export async function connectDb(): Promise<void> {
+  let server: http.Server | null = null;
+
   try {
+    // Establish connection to the MongoDB database
     await mongoose.connect(config.mongo_url as string);
-    console.log(
-      "connection established successfully into database".green.underline
-    );
+    console.log("Successfully connected to the database".green.underline);
 
+    // Create an HTTP server and start listening
     server = http.createServer(app);
     server.listen(config.port, () => {
-      console.log(
-        `Example app listening on port=> ${config.port}`.yellow.underline
-      );
+      console.log(`Server is running on port ${config.port}`.yellow.underline);
     });
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error(
+      `Error connecting to the database or starting server: ${error}`.red
+        .underline
+    );
+    process.exit(1); // Exit the process with failure
   }
 
-  process.on("unhandledRejection", (error) => {
-    // eslint-disable-next-line no-console
-    console.log(
-      "Unhandled Rejection is detected ,we are closing our server".red.underline
+  // Graceful shutdown on unhandled promise rejections
+  process.on("unhandledRejection", (error: any) => {
+    console.error(
+      "Unhandled Rejection detected. Shutting down server...".red.underline
     );
+
     if (server) {
       server.close(() => {
-        console.error(error);
+        console.error(`Error: ${error.message}`.red.underline);
         process.exit(1);
       });
     } else {
-      console.log(error);
+      console.error(`Error: ${error.message}`.red.underline);
       process.exit(1);
+    }
+  });
+
+  // Graceful shutdown on SIGTERM (e.g., from Docker or Kubernetes)
+  process.on("SIGTERM", () => {
+    console.log("SIGTERM received. Shutting down gracefully...".blue.underline);
+
+    if (server) {
+      server.close(() => {
+        console.log("Server shut down complete.".blue.underline);
+        process.exit(0);
+      });
     }
   });
 }

@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import catchAsync from "../../../shared/catchAsync";
 import User from "./auth.model";
 import { UserService } from "./auth.service";
@@ -6,46 +6,48 @@ import { IUser } from "./auth.interface";
 import { jwtHelpers } from "../../../utils/auth";
 import config from "../../../config";
 
-export const createUser = catchAsync(async (req: Request, res: Response) => {
-  const checkUserEmail = await User.find({ email: req.body.email }).lean();
-  const checkUsername: any = await User.find({
-    username: req.body.username,
-  }).lean();
+export const createUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const checkUserEmail = await User.find({ email: req.body.email }).lean();
+    const checkUsername: any = await User.find({
+      username: req.body.username,
+    }).lean();
 
-  if (checkUserEmail.length > 0) {
-    return res.status(400).send({
-      success: false,
-      message: "Email already exists!",
+    if (checkUserEmail.length > 0) {
+      return res.status(400).send({
+        success: false,
+        message: "Email already exists!",
+      });
+    }
+
+    if (checkUsername.length > 0) {
+      return res.status(400).send({
+        success: false,
+        message: "Username already exists!",
+      });
+    }
+
+    const result = await UserService.createUser(req.body);
+    const { password, ...others } = result.toObject();
+    res.json({
+      success: true,
+      message: "Successfully created user",
+      data: {
+        user: others,
+        token: jwtHelpers.createToken(
+          {
+            _id: result._id,
+            userRole: result.userRole,
+          },
+          config.jwt_secret as string,
+          {
+            expiresIn: "30d",
+          }
+        ),
+      },
     });
   }
-
-  if (checkUsername.length > 0) {
-    return res.status(400).send({
-      success: false,
-      message: "Username already exists!",
-    });
-  }
-
-  const result = await UserService.createUser(req.body);
-  const { password, ...others } = result.toObject();
-  res.json({
-    success: true,
-    message: "Successfully created user",
-    data: {
-      user: others,
-      token: jwtHelpers.createToken(
-        {
-          _id: result._id,
-          userRole: result.userRole,
-        },
-        config.jwt_secret as string,
-        {
-          expiresIn: "30d",
-        }
-      ),
-    },
-  });
-});
+);
 
 export const loginUser = catchAsync(async (req: Request, res: Response) => {
   const { password, identifier } = req.body;

@@ -6,6 +6,23 @@ This API provides endpoints for managing users, including creating, reading, upd
 
 https://pnc-jobs-server.vercel.app/api/v1
 
+### category
+
+## /categories[POST] create category
+
+`{
+    "name":"test1",
+    "slug":"test"
+}`
+
+## /categories[PUT] update category
+
+## /categories[GET] gel all categories
+
+## /categories/:id[GET] gel single category
+
+## /categories/:id [DELETE] delete category
+
 ### User Registration
 
 #### POST `/users`

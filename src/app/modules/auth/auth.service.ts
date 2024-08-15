@@ -38,12 +38,14 @@ export class UserService {
     }).lean();
 
     if (!user) {
-      throw new AppError(400, "Invalid email/username or password");
+      // throw new AppError(400, "Invalid email/username or password");
+      throw new Error("Invalid email/username or password");
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      throw new AppError(400, "Invalid email/username or password");
+      // throw new AppError(400, "Invalid email/username or password");
+      throw new Error("Invalid email/username or password");
     }
 
     const token = jwtHelpers.createToken(

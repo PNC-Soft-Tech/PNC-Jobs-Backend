@@ -4,14 +4,8 @@ import { ICategory } from "./category.interface";
 
 const categorySchema = new Schema<ICategory>(
   {
-    name: { type: String, required: true },
-    banned_countries: [{ type: String }],
-    image: { type: String, required: false },
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
+    name: { type: String, required: true, unique: true },
+    slug: { type: String, required: true, unique: true },
   },
   {
     timestamps: true,

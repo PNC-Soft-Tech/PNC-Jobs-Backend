@@ -4,17 +4,13 @@ import cors from "cors";
 import { errorHandler } from "./app/middlewares/globalErrorHandler";
 import AppError from "./error/AppError";
 import { userRouter } from "./app/modules/auth/auth.route";
-import { photoRouter } from "./app/modules/Photo/photo.route";
 import { categoryRouter } from "./app/modules/Category/category.route";
-import { favoriteRouter } from "./app/modules/favorite/favorite.route";
-import { unFavoriteRouter } from "./app/modules/unfavorite/unfavorite.route";
-import { groupRouter } from "./app/modules/group/group.route";
-import { PaymentsRouter } from "./app/modules/Payment/payment.routes";
-import { messageRouter } from "./app/modules/message/message.route";
-import { chatsRouter } from "./app/modules/chat/chats.route";
 import errorhandler from "errorhandler";
 import config from "./config";
-import { postRouter } from "./app/modules/Post/post.route";
+import { subCategoryRouter } from "./app/modules/SubCategory/subCategory.route";
+import { questionRouter } from "./app/modules/Question/question.route";
+import { answerRouter } from "./app/modules/Answer/answer.route";
+import { modelRouter } from "./app/modules/Model/model.route";
 
 const app = express();
 
@@ -26,27 +22,23 @@ if (config.node_env === "development") {
   app.use(errorhandler());
 }
 
-app.use("/api/v1/photos", photoRouter);
 app.use("/api/v1/categories", categoryRouter);
+app.use("/api/v1/sub-categories", subCategoryRouter);
 app.use("/api/v1/users", userRouter);
-app.use("/api/v1/posts", postRouter);
-app.use("/api/v1/favorites", favoriteRouter);
-app.use("/api/v1/groups", groupRouter);
-app.use("/api/v1/chats", chatsRouter);
-app.use("/api/v1/messages", messageRouter);
-app.use("/api/v1/unfavorites", unFavoriteRouter);
-app.use("/api/v1/payments", PaymentsRouter);
+app.use("/api/v1/questions", questionRouter);
+app.use("/api/v1/answers", answerRouter);
+app.use("/api/v1/models", modelRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("welcome");
 });
 
+app.use((req: Request, res: Response, next: NextFunction) => {
+  next(AppError.notFound("This route does not exist."));
+});
+
 // Global error handler
 app.use(errorHandler);
 // Route not found (404 handler)
-app.use((req: Request, res: Response, next: NextFunction) => {
-  const err = new AppError(404, `Not Found - ${req.originalUrl}`);
-  next(err);
-});
 
 export default app;
