@@ -12,13 +12,20 @@ export const createModel = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const getAllModel = async (req: Request, res: Response) => {
-  const categories: IModel[] = await ModelServices.getAllModel(req); // Update variable name to 'categories'
+export const getAllModel = catchAsync(async (req: Request, res: Response) => {
+  const { categories, total, page, limit } = await ModelServices.getAllModel(
+    req
+  );
+
   res.json({
     success: true,
     data: categories,
+    total, // Total number of items
+    page, // Current page
+    limit, // Items per page
+    totalPages: Math.ceil(total / limit), // Total number of pages
   });
-};
+});
 
 export const getModelById = catchAsync(async (req: Request, res: Response) => {
   const model = await ModelServices.getModelById(req.params.id);
@@ -34,6 +41,22 @@ export const getModelById = catchAsync(async (req: Request, res: Response) => {
     });
   }
 });
+export const getModelByName = catchAsync(
+  async (req: Request, res: Response) => {
+    const model = await ModelServices.getModelByName(req.params.name);
+    if (!model) {
+      res.status(404).json({
+        success: false,
+        message: "Model not found",
+      });
+    } else {
+      res.json({
+        success: true,
+        data: model,
+      });
+    }
+  }
+);
 
 export const updateModel = catchAsync(async (req: Request, res: Response) => {
   const result = await ModelServices.updateModel(req.params.id, req.body);

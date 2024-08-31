@@ -25,6 +25,8 @@ https://pnc-jobs-server.vercel.app/api/v1
 
 ## /models[GET] gel all model
 
+## /models/name/:name[GET] gel single model by name
+
 ## /models/:id[GET] gel single model
 
 ## /models/:id [DELETE] delete model
