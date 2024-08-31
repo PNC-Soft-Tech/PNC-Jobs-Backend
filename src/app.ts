@@ -11,6 +11,8 @@ import { subCategoryRouter } from "./app/modules/SubCategory/subCategory.route";
 import { questionRouter } from "./app/modules/Question/question.route";
 import { answerRouter } from "./app/modules/Answer/answer.route";
 import { modelRouter } from "./app/modules/Model/model.route";
+import { contestRouter } from "./app/modules/Contest/contest.route";
+import { attendeeRouter } from "./app/modules/Attendee/attendee.route";
 
 const app = express();
 
@@ -28,6 +30,8 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/questions", questionRouter);
 app.use("/api/v1/answers", answerRouter);
 app.use("/api/v1/models", modelRouter);
+app.use("/api/v1/contests", contestRouter);
+app.use("/api/v1/attendees", attendeeRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("welcome");
