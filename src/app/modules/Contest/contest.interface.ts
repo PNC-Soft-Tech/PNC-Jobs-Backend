@@ -4,8 +4,8 @@ export interface IContest {
   name: string; // Name of the quiz
   description: string; // Description of the quiz
   questions: Types.ObjectId[]; // Array of Question objects
-  startContest: Date;
-  endContest: Date;
+  startContest: string;
+  endContest: string;
   totalMarks: number;
   totalTime: number;
 }
