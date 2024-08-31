@@ -17,7 +17,7 @@ const questionSchema = new Schema<IQuestion>(
       type: Schema.Types.ObjectId,
       ref: "SubCategory",
       required: true,
-    }, // References SubCategory
+    },
     rightAnswer: { type: String, required: true }, // Assuming a single correct answer
   },
   {

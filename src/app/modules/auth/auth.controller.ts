@@ -12,11 +12,20 @@ export const createUser = catchAsync(
     const checkUsername: any = await User.find({
       username: req.body.username,
     }).lean();
+    const checkPhone: any = await User.find({
+      phone: req.body?.phone,
+    }).lean();
 
     if (checkUserEmail.length > 0) {
       return res.status(400).send({
         success: false,
         message: "Email already exists!",
+      });
+    }
+    if (checkPhone.length > 0) {
+      return res.status(400).send({
+        success: false,
+        message: "Phone number already exists!",
       });
     }
 

@@ -6,8 +6,10 @@ import { IQuestion } from "./question.interface";
 
 export const createQuestion = catchAsync(
   async (req: Request, res: Response) => {
-    const checkCategoriesName = await Question.find({ name: req.body.name });
-    if (checkCategoriesName.length == 0) {
+    const checkNameExist: any = await Question.findOne({
+      title: req.body.title,
+    });
+    if (!checkNameExist) {
       const result = await QuestionServices.createQuestion(req.body);
       res.json({
         success: true,
