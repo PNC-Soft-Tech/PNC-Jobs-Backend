@@ -3,11 +3,8 @@ import { UserController } from "./auth.controller";
 
 const router = Router();
 
-router.post("/", UserController.createUser);
-router.post("/login", UserController.loginUser);
-router.get("/", UserController.getAllUsers);
-router.get("/:id", UserController.getUserById);
-router.put("/:id", UserController.updateUser);
-router.delete("/:id", UserController.deleteUser);
+router.route("/login").post(UserController.loginUser);
+router.route("/:id").get(UserController.getUserById).put(UserController.updateUser).delete(UserController.deleteUser);
+router.route("/").get(UserController.getAllUsers).post(UserController.createUser);
 
 export const userRouter = router;
