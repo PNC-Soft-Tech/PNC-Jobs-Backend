@@ -6,6 +6,7 @@ export const createQuestion = async (question: IQuestion) => {
   const saveQuestion = await Question.create(question);
   return saveQuestion;
 };
+
 export const getAllQuestion = async (req: Request) => {
   const categories = await Question.find();
   return categories;

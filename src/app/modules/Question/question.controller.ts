@@ -3,6 +3,8 @@ import { QuestionServices } from "./question.service";
 import catchAsync from "../../../shared/catchAsync";
 import Question from "./question.model";
 import { IQuestion } from "./question.interface";
+import Category from "../Category/category.model";
+import SubCategory from "../SubCategory/subCategory.model";
 
 export const createQuestion = catchAsync(
   async (req: Request, res: Response) => {

@@ -6,6 +6,7 @@ import {
   updateContest,
   deleteContest,
   getContestByName,
+  generateContest,
 } from "./contest.controller";
 import { zodValidator } from "../../middlewares/validationMiddleware";
 import { createContestSchema, updateContestSchema } from "./contest.validation";
@@ -15,6 +16,7 @@ const router = express.Router();
 
 router.post("/", zodValidator(createContestSchema), createContest);
 router.get("/", getAllContest);
+router.get("/generate-contest", generateContest);
 router.get("/name/:name", getContestByName);
 router.get("/:id", getContestById);
 router.put("/:id", zodValidator(updateContestSchema), updateContest);
