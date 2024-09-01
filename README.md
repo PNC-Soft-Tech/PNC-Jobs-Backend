@@ -6,6 +6,62 @@ This API provides endpoints for managing users, including creating, reading, upd
 
 https://pnc-jobs-server.vercel.app/api/v1
 
+### Generate contest
+
+## /contests/generate-contest?name=contest-1&description=test&categoryLimit=5&subCategoryLimit=5&questionLimit=10&totalTime=60&totalMarks=60[GET] create generate contest
+
+### response body
+
+```
+{
+  "success": true,
+  "message": "Contest generated successfully",
+  "data": {
+    "name": "contest-1",
+    "description": "test",
+    "questions": [
+      "66d2878f986a99f77d40a01a",
+      "66d286d4986a99f77d40a014",
+      "66d27f1afe52ddc16c17697a",
+      "66d304ab6767f7e739027fb5",
+      "66d2d58171843aacf902d0c8",
+      "66d287c6375b9585e2ba9748",
+      "66d28981986a99f77d40a075",
+      "66d2802d81b5d03bfe6b2e1b",
+      "66d28a61375b9585e2ba9752",
+      "66d282d38e64411388fbf156",
+      "66d374ca54a9547470b50195",
+      "66d3771c488a521a0a8def39",
+      "66d305f46767f7e739028128",
+      "66d3c15136f9334ec556bc1b",
+      "66d3721f513121e3e62e5fcd",
+      "66d370b394ff3c182f0a0f26",
+      "66d3c83b2ebdab52c5be22a1",
+      "66d43f6f71b7051a167ae376",
+      "66d3054ee7c3357d8df83df3",
+      "66d3c10136f9334ec556ba97",
+      "66d376f3aa02455678d39418",
+      "66d42c8713dd52961185258c",
+      "66d440d8e80db88bc37151ec",
+      "66d44043e80db88bc3715025",
+      "66d4359aec4c1a9c8315461d",
+      "66d3c7f32ebdab52c5be21d5",
+      "66d43bb2ac9c7d67d346c980"
+    ],
+    "startContest": "2024-09-01T10:25:49.723Z",
+    "endContest": "2024-09-02T10:25:49.723Z",
+    "totalMarks": 60,
+    "totalTime": 60,
+    "_id": "66d441317a0659a347727258",
+    "createdAt": "2024-09-01T10:25:54.033Z",
+    "updatedAt": "2024-09-01T10:25:54.033Z",
+    "__v": 0
+  }
+}
+
+
+```
+
 ### Contest
 
 ## /contests[POST] create contest
