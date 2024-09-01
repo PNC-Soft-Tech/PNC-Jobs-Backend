@@ -6,6 +6,36 @@ This API provides endpoints for managing users, including creating, reading, upd
 
 https://pnc-jobs-server.vercel.app/api/v1
 
+### Contest
+
+## /contests[POST] create contest
+
+```
+{
+    "name": "JavaScript Basics Quiz",
+    "description": "A quiz to test your knowledge of JavaScript fundamentals.",
+    "questions": [
+      "66be1229b2e18c923af935c3",
+      "66be1229b2e18c923af935c3",
+      "66be1229b2e18c923af935c3"
+    ],
+    "startContest": "2024-09-15T10:00:00Z",
+    "endContest": "2024-09-15T11:00:00Z",
+    "totalMarks": 100,
+    "totalTime": 60
+  }
+```
+
+## /contests[PUT] update contest
+
+## /contests[GET] gel all contest
+
+## /contests/name/:name[GET] gel single contest by name
+
+## /contests/:id[GET] gel single contest
+
+## /contests/:id [DELETE] delete contest
+
 ### model
 
 ## /models[POST] create model
@@ -30,6 +60,27 @@ https://pnc-jobs-server.vercel.app/api/v1
 ## /models/:id[GET] gel single model
 
 ## /models/:id [DELETE] delete model
+
+### attendee
+
+## /attendees[POST] create answer
+
+```
+{
+  "question": "64dfc1a5f1c4d2b6f5e8a9c1", // Example ObjectId for the question
+  "user": "64dfc1a5f1c4d2b6f5e8a9c2", // Example ObjectId for the user
+  "model": "64dfc1a5f1c4d2b6f5e8a9c3", // Example ObjectId for the model
+  "selectedAnswer": "a" // Answer selected by the user
+}
+```
+
+## /attendees[PUT] update answer
+
+## /attendees[GET] gel all answer
+
+## /attendees/:id[GET] gel single answer
+
+## /attendees/:id [DELETE] delete answer
 
 ### answer
 
