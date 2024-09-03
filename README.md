@@ -8,7 +8,31 @@ https://pnc-jobs-server.vercel.app/api/v1
 
 ### Generate contest
 
-## /contests/generate-contest?name=contest-1&description=test&categoryLimit=5&subCategoryLimit=5&questionLimit=10&totalTime=60&totalMarks=60[GET] create generate contest
+## /contests/generate-contest[GET] create generate contest
+
+### payload body
+
+```
+{
+  "title": "contest 2",
+  "description": "description goes here...",
+  "startContest": "2024-09-03T14:25:36.937Z",
+  "endContest": "2024-09-05T14:25:36.937Z",
+  "totalMarks": 50,
+  "totalQuestions": 100,
+  "totalTime": 60,
+  "questions": [
+    {
+      "category": "66be1c8fc1762c2bb11cdc29",
+      "subCategory": "66bdd3496e118d3fed2d495f",
+      "no_of_ques": 10
+    }
+  ]
+}
+
+
+
+```
 
 ### response body
 
