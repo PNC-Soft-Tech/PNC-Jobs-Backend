@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { ZodError } from "zod";
 import AppError from "../../error/AppError";
 import { MongooseError } from "mongoose";
+import { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken"; // Import JWT errors
 
 // Define the global error handler
 export const errorHandler = (
@@ -14,6 +15,7 @@ export const errorHandler = (
   let message = "Internal Server Error";
   let errorResponse: any = { success: false };
 
+  // Handle custom application errors
   if (err instanceof AppError) {
     statusCode = err.statusCode;
     message = err.message;
@@ -22,26 +24,44 @@ export const errorHandler = (
     if (!err.isOperational) {
       console.error("Unexpected Error:", err); // Log unexpected errors
     }
+
+    // Handle Zod validation errors
   } else if (err instanceof ZodError) {
-    // Handle Zod-specific errors
     statusCode = 400; // Bad Request for validation errors
     message = "Validation error";
     errorResponse.message = message;
     errorResponse.issues = err.issues.map((issue) => ({
-      path: issue.path,
-      message: issue.message,
+      path: issue.path.join(" > "), // Join path to make it user-friendly
+      message: `Invalid value for ${issue.path.join(" > ")}: ${issue.message}`,
       code: issue.code,
     }));
 
     console.warn("Validation Error:", err); // Log validation errors
+
+    // Handle Mongoose errors
   } else if (err instanceof MongooseError) {
-    // Handle Mongoose-specific errors
     statusCode = 400; // Bad Request for Mongoose errors
     message = "Database error";
     errorResponse.message = message;
     errorResponse.details = err.message;
 
     console.warn("Database Error:", err); // Log database errors
+
+    // Handle JWT errors (authentication-related)
+  } else if (err instanceof JsonWebTokenError) {
+    statusCode = 401; // Unauthorized for JWT errors
+    message = "Invalid token";
+    errorResponse.message = message;
+
+    console.warn("JWT Error:", err); // Log JWT errors
+  } else if (err instanceof TokenExpiredError) {
+    statusCode = 401; // Unauthorized for expired tokens
+    message = "Token has expired";
+    errorResponse.message = message;
+
+    console.warn("JWT Expired Error:", err); // Log expired token errors
+
+    // Handle unknown errors
   } else {
     console.error("Unknown Error:", err); // Log unknown errors
     errorResponse.message = message;

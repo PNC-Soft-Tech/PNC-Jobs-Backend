@@ -9,14 +9,22 @@ import {
   generateContest,
 } from "./contest.controller";
 import { zodValidator } from "../../middlewares/validationMiddleware";
-import { createContestSchema, updateContestSchema } from "./contest.validation";
+import {
+  createContestSchema,
+  generateContestSchema,
+  updateContestSchema,
+} from "./contest.validation";
 import { auth } from "../../middlewares/auth";
 
 const router = express.Router();
 
 router.post("/", zodValidator(createContestSchema), createContest);
 router.get("/", getAllContest);
-router.get("/generate-contest", generateContest);
+router.post(
+  "/generate-contest",
+  zodValidator(generateContestSchema),
+  generateContest
+);
 router.get("/name/:name", getContestByName);
 router.get("/:id", getContestById);
 router.put("/:id", zodValidator(updateContestSchema), updateContest);

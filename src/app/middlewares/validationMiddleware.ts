@@ -13,10 +13,12 @@ export function zodValidator<T>(schema: ZodSchema<T>) {
       next(); // Proceed to the next middleware or route handler
     } else {
       // Send a 400 Bad Request response with validation errors
-      res.status(400).json({
-        error: "Validation failed",
-        issues: result.error.issues,
-      });
+      // res.status(400).json({
+      //   error: "Validation failed",
+      //   issues: result.error.issues,
+      // });
+
+      next(result.error);
     }
   };
 }

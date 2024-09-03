@@ -6,6 +6,7 @@ import SubCategory from "../SubCategory/subCategory.model";
 import Category from "../Category/category.model";
 import Question from "../Question/question.model";
 import Contest from "./contest.model";
+import { Types } from "mongoose";
 
 export const createContest = catchAsync(async (req: Request, res: Response) => {
   const result = await ContestServices.createContest(req.body);
@@ -23,70 +24,53 @@ export const generateContest = catchAsync(
       description,
       totalMarks = 60,
       totalTime = 60,
-      categoryLimit = 5,
-      subCategoryLimit = 5,
-      questionLimit = 10,
-    } = req.query;
+      questions,
+      startContest,
+      endContest,
+    } = req.body;
 
-    // Calculate start and end times (24 hours from now)
-    const startContest = new Date();
-    const endContest = new Date(startContest.getTime() + 24 * 60 * 60 * 1000); // 24 hours later
+    const generateQuestions: any[] = [];
 
-    // Fetch only one category
-    const categories = await Category.aggregate([
-      { $sample: { size: +categoryLimit } },
-    ]).exec();
+    // Ensure each question has the expected structure
+    for (const question of questions) {
+      // Type-check to avoid accessing properties on a potential string
+      if (
+        typeof question === "object" &&
+        question.subCategory &&
+        question.no_of_ques
+      ) {
+        const subCategoryId = new Types.ObjectId(question.subCategory);
+        const generateQuestion = await Question.aggregate([
+          { $match: { subCategory: subCategoryId } },
+          { $sample: { size: +question.no_of_ques } },
+        ]).exec();
 
-    if (!categories.length) {
-      return res.status(404).json({ message: "No categories found." });
-    }
+        // console.log("generateQuestion~~", question);
+        // console.log("generateQuestion~~", generateQuestion);
 
-    const selectedCategories = [];
-    for (const category of categories) {
-      selectedCategories.push(category._id);
-    }
-
-    let selectedSubCategories: any = [];
-
-    // Fetch subcategories within the selected category
-    for (const selectedCategory of selectedCategories) {
-      const temp = await SubCategory.aggregate([
-        { $match: { category: selectedCategory._id } },
-        { $sample: { size: +subCategoryLimit } },
-      ]).exec();
-
-      selectedSubCategories = [...selectedSubCategories, ...temp];
-    }
-
-    if (selectedSubCategories.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No subcategories found for the selected category." });
-    }
-
-    const selectedQuestions: any[] = [];
-
-    for (const selectedCategory of selectedSubCategories) {
-      // Fetch random questions from the subcategory
-      const questions = await Question.aggregate([
-        { $match: { subCategory: selectedCategory._id } },
-        { $sample: { size: +questionLimit } },
-      ]).exec();
-
-      selectedQuestions.push(...questions);
+        generateQuestions.push(...generateQuestion);
+      } else {
+        // Handle the case where the question is not in the expected format
+        return res.status(400).json({
+          success: false,
+          message:
+            "Invalid question format. Each question must be an object with 'subCategory' and 'no_of_ques'.",
+        });
+      }
     }
 
     // Construct the contest object
-    const contest: any = {
+    const contest = {
       name,
       description,
-      startContest: startContest.toISOString(),
-      endContest: endContest.toISOString(),
+      startContest,
+      endContest,
       totalMarks,
       totalTime,
-      questions: selectedQuestions.map((question) => question._id),
+      questions: generateQuestions.map((question) => question._id),
     };
 
+    // Save the contest to the database
     const saveModel = await Contest.create(contest);
 
     // Send the contest object as a response
@@ -97,6 +81,88 @@ export const generateContest = catchAsync(
     });
   }
 );
+
+// export const generateContest = catchAsync(
+//   async (req: Request, res: Response) => {
+//     const {
+//       name,
+//       description,
+//       totalMarks = 60,
+//       totalTime = 60,
+//       categoryLimit = 5,
+//       subCategoryLimit = 5,
+//       questionLimit = 10,
+//     } = req.query;
+
+//     // Calculate start and end times (24 hours from now)
+//     const startContest = new Date();
+//     const endContest = new Date(startContest.getTime() + 24 * 60 * 60 * 1000); // 24 hours later
+
+//     // Fetch only one category
+//     const categories = await Category.aggregate([
+//       { $sample: { size: +categoryLimit } },
+//     ]).exec();
+
+//     if (!categories.length) {
+//       return res.status(404).json({ message: "No categories found." });
+//     }
+
+//     const selectedCategories = [];
+//     for (const category of categories) {
+//       selectedCategories.push(category._id);
+//     }
+
+//     let selectedSubCategories: any = [];
+
+//     // Fetch subcategories within the selected category
+//     for (const selectedCategory of selectedCategories) {
+//       const temp = await SubCategory.aggregate([
+//         { $match: { category: selectedCategory._id } },
+//         { $sample: { size: +subCategoryLimit } },
+//       ]).exec();
+
+//       selectedSubCategories = [...selectedSubCategories, ...temp];
+//     }
+
+//     if (selectedSubCategories.length === 0) {
+//       return res
+//         .status(404)
+//         .json({ message: "No subcategories found for the selected category." });
+//     }
+
+//     const selectedQuestions: any[] = [];
+
+//     for (const selectedCategory of selectedSubCategories) {
+//       // Fetch random questions from the subcategory
+//       const questions = await Question.aggregate([
+//         { $match: { subCategory: selectedCategory._id } },
+//         { $sample: { size: +questionLimit } },
+//       ]).exec();
+
+//       selectedQuestions.push(...questions);
+//     }
+
+//     // Construct the contest object
+//     const contest: any = {
+//       name,
+//       description,
+//       startContest: startContest.toISOString(),
+//       endContest: endContest.toISOString(),
+//       totalMarks,
+//       totalTime,
+//       questions: selectedQuestions.map((question) => question._id),
+//     };
+
+//     const saveModel = await Contest.create(contest);
+
+//     // Send the contest object as a response
+//     res.status(200).json({
+//       success: true,
+//       message: "Contest generated successfully",
+//       data: saveModel,
+//     });
+//   }
+// );
 
 export const getAllContest = catchAsync(async (req: Request, res: Response) => {
   const { categories, total, page, limit } =
