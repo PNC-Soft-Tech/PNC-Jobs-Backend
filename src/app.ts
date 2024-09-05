@@ -13,6 +13,8 @@ import { answerRouter } from "./app/modules/Answer/answer.route";
 import { modelRouter } from "./app/modules/Model/model.route";
 import { contestRouter } from "./app/modules/Contest/contest.route";
 import { attendeeRouter } from "./app/modules/Attendee/attendee.route";
+import { jobCategoryRouter } from "./app/modules/JobCategory/jobCategory.route";
+import { jobCircularRouter } from "./app/modules/JobCircular/jobCircular.route";
 
 const app = express();
 
@@ -25,6 +27,7 @@ if (config.node_env === "development") {
 }
 
 app.use("/api/v1/categories", categoryRouter);
+app.use("/api/v1/job-categories", jobCategoryRouter);
 app.use("/api/v1/sub-categories", subCategoryRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/questions", questionRouter);
@@ -32,6 +35,7 @@ app.use("/api/v1/answers", answerRouter);
 app.use("/api/v1/models", modelRouter);
 app.use("/api/v1/contests", contestRouter);
 app.use("/api/v1/attendees", attendeeRouter);
+app.use("/api/v1/job-circulars", jobCircularRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("welcome");

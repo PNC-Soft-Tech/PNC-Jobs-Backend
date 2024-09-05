@@ -86,6 +86,52 @@ https://pnc-jobs-server.vercel.app/api/v1
 
 ```
 
+### Job categories
+
+## /job-categories[POST] create job-categories
+
+```
+{
+    "name":"Software Engineer",
+    "slug":"software-engin"
+}
+
+```
+
+## /job-categories[PUT] update job-categories
+
+## /job-categories[GET] gel all job-categories
+
+## /job-categories/name/:name[GET] gel single job-categories by name
+
+## /job-categories/:id[GET] gel single job-categories
+
+## /job-categories/:id [DELETE] delete job-categories
+
+### Job circular
+
+## /job-circulars[POST] create job-circulars
+
+```
+{
+    "title": "Software Engineer",
+    "company": "Tech Corp",
+    "jobCategory": "66d95e4ec36c374442a39f9c", // Replace with an actual ObjectId from JobCategory collection
+    "deadline": "2024-12-31T00:00:00.000Z",
+    "link": "https://example.com/software-engineer"
+  }
+```
+
+## /job-circulars[PUT] update job-circulars
+
+## /job-circulars[GET] gel all job-circulars
+
+## /job-circulars/name/:name[GET] gel single job-circulars by name
+
+## /job-circulars/:id[GET] gel single job-circulars
+
+## /job-circulars/:id [DELETE] delete job-circulars
+
 ### Contest
 
 ## /contests[POST] create contest

@@ -73,7 +73,7 @@ export const deleteCategory = catchAsync(
   }
 );
 
-export const PhotoController = {
+export const CategoryController = {
   createCategory,
   getAllCategory,
   getCategoryById,
