@@ -195,7 +195,7 @@ https://pnc-jobs-server.vercel.app/api/v1
 {
   "question": "64dfc1a5f1c4d2b6f5e8a9c1", // Example ObjectId for the question
   "user": "64dfc1a5f1c4d2b6f5e8a9c2", // Example ObjectId for the user
-  "model": "64dfc1a5f1c4d2b6f5e8a9c3", // Example ObjectId for the model
+  "contest": "64dfc1a5f1c4d2b6f5e8a9c3", // Example ObjectId for the model
   "selectedAnswer": "a" // Answer selected by the user
 }
 ```
