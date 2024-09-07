@@ -16,10 +16,28 @@ export const createAttendee = catchAsync(
 );
 
 export const getAllAttendee = async (req: Request, res: Response) => {
-  const categories: IAttendee[] = await AttendeeServices.getAllAttendee(req); // Update variable name to 'categories'
+  const attendees: IAttendee[] = await AttendeeServices.getAllAttendee(req); // Update variable name to 'attendees'
   res.json({
     success: true,
-    data: categories,
+    data: attendees,
+  });
+};
+export const checkAttendee = async (req: Request, res: Response) => {
+  const { userId, contestId, questionId } = req.params;
+  const attendee: any = await AttendeeServices.checkAttendee({
+    user: userId,
+    contest: contestId,
+    question: questionId,
+  });
+  if (attendee) {
+    res.json({
+      success: true,
+      data: attendee,
+    });
+  }
+  res.json({
+    success: false,
+    data: null,
   });
 };
 

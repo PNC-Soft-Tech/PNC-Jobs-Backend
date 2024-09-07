@@ -15,6 +15,12 @@ export const getAttendeeById = async (id: string) => {
   const attendee = await Attendee.findById(id);
   return attendee;
 };
+export const checkAttendee = async (query: any) => {
+  const attendee = await Attendee.findOne(query)
+    .select("selectedAnswer")
+    .lean();
+  return attendee;
+};
 
 export const updateAttendee = async (
   id: string,
@@ -37,4 +43,5 @@ export const AttendeeServices = {
   getAttendeeById,
   updateAttendee,
   deleteAttendee,
+  checkAttendee,
 };

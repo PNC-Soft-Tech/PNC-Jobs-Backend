@@ -189,7 +189,22 @@ https://pnc-jobs-server.vercel.app/api/v1
 
 ### attendee
 
-## /attendees[POST] create answer
+## /attendees/check/:userId/:questionId/:contestId"[POST] check attendees
+
+# for checked
+
+```
+success:true
+data:{}
+```
+
+# for not checked/ not attend
+
+```
+success:false
+```
+
+## /attendees[POST] create attendees
 
 ```
 {
@@ -200,13 +215,13 @@ https://pnc-jobs-server.vercel.app/api/v1
 }
 ```
 
-## /attendees[PUT] update answer
+## /attendees[PUT] update attendees
 
-## /attendees[GET] gel all answer
+## /attendees[GET] gel all attendees
 
-## /attendees/:id[GET] gel single answer
+## /attendees/:id[GET] gel single attendees
 
-## /attendees/:id [DELETE] delete answer
+## /attendees/:id [DELETE] delete attendees
 
 ### answer
 
