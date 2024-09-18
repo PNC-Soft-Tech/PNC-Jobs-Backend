@@ -3,7 +3,6 @@ import { ZodError } from "zod";
 import AppError from "../../error/AppError";
 import { MongooseError } from "mongoose";
 import { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken"; // Import JWT errors
-
 // Define the global error handler
 export const errorHandler = (
   err: Error,
@@ -14,6 +13,9 @@ export const errorHandler = (
   let statusCode = 500;
   let message = "Internal Server Error";
   let errorResponse: any = { success: false };
+
+  // console.error("Error Type:", err.constructor.name); // Log the constructor name
+  // console.error("Error Details:", err); // Log the full error object
 
   // Handle custom application errors
   if (err instanceof AppError) {
@@ -36,7 +38,7 @@ export const errorHandler = (
       code: issue.code,
     }));
 
-    console.warn("Validation Error:", err); // Log validation errors
+    // console.warn("Validation Error:", err); // Log validation errors
 
     // Handle Mongoose errors
   } else if (err instanceof MongooseError) {
@@ -45,7 +47,14 @@ export const errorHandler = (
     errorResponse.message = message;
     errorResponse.details = err.message;
 
-    console.warn("Database Error:", err); // Log database errors
+    // Handle MongoDB duplicate key error
+    if ((err as any).code === 11000) {
+      statusCode = 400; // Bad Request
+      message = "Duplicate key error";
+      const duplicateField = Object.keys((err as any).keyValue).join(", ");
+      errorResponse.message = `Duplicate value for field: ${duplicateField}`;
+    }
+    // console.warn("Database Error:", err); // Log database errors
 
     // Handle JWT errors (authentication-related)
   } else if (err instanceof JsonWebTokenError) {

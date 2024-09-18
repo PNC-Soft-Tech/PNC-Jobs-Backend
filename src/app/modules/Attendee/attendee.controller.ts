@@ -34,11 +34,12 @@ export const checkAttendee = async (req: Request, res: Response) => {
       success: true,
       data: attendee,
     });
+  } else {
+    res.json({
+      success: false,
+      data: null,
+    });
   }
-  res.json({
-    success: false,
-    data: null,
-  });
 };
 
 export const getAttendeeById = catchAsync(

@@ -6,6 +6,26 @@ This API provides endpoints for managing users, including creating, reading, upd
 
 https://pnc-jobs-server.vercel.app/api/v1
 
+### exam types
+
+## /exam-types[POST] create exam-types
+
+```
+{
+    "name":"Software Engineer",
+    "slug":"software-engin"
+}
+
+```
+
+## /exam-types[PUT] update exam-types
+
+## /exam-types[GET] gel all exam-types
+
+## /exam-types/:id[GET] gel single exam-types
+
+## /exam-types/:id [DELETE] delete exam-types
+
 ### Generate contest
 
 ## /contests/generate-contest[GET] create generate contest

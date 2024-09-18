@@ -15,6 +15,7 @@ import { contestRouter } from "./app/modules/Contest/contest.route";
 import { attendeeRouter } from "./app/modules/Attendee/attendee.route";
 import { jobCategoryRouter } from "./app/modules/JobCategory/jobCategory.route";
 import { jobCircularRouter } from "./app/modules/JobCircular/jobCircular.route";
+import { examTypeRouter } from "./app/modules/ExamType/examType.route";
 
 const app = express();
 
@@ -28,6 +29,7 @@ if (config.node_env === "development") {
 
 app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/job-categories", jobCategoryRouter);
+app.use("/api/v1/exam-types", examTypeRouter);
 app.use("/api/v1/sub-categories", subCategoryRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/questions", questionRouter);
