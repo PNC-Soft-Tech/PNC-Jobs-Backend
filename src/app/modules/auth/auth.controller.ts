@@ -5,6 +5,7 @@ import { UserService } from "./auth.service";
 import { IUser } from "./auth.interface";
 import { jwtHelpers } from "../../../utils/auth";
 import config from "../../../config";
+import { registrationConfirmationEmail } from "../../../utils/registrationEmail";
 
 export const createUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -38,6 +39,7 @@ export const createUser = catchAsync(
 
     const result = await UserService.createUser(req.body);
     const { password, ...others } = result.toObject();
+     await registrationConfirmationEmail(result)
     res.json({
       success: true,
       message: "Successfully created user",
