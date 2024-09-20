@@ -6,6 +6,9 @@ import { IUser } from "./auth.interface";
 import { jwtHelpers } from "../../../utils/auth";
 import config from "../../../config";
 import { registrationConfirmationEmail } from "../../../utils/registrationEmail";
+import bcrypt from "bcrypt";
+import { resetPasswordEmail } from "../../../utils/resetPasswordEmail";
+
 
 export const createUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -74,6 +77,61 @@ export const loginUser = catchAsync(async (req: Request, res: Response) => {
     },
   });
 });
+export const forgotPassword = async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+    const user:any = await User.findOne({ email });
+
+    if (!user) {
+      return   res.json({
+        success: false,
+        message: "User not found !",
+     
+      });
+    }
+
+    // Generate the reset token
+    const resetToken = jwtHelpers.generatePasswordResetToken(user.id);
+    // Send email logic (use your email service to send the token)
+    
+    await resetPasswordEmail(user,resetToken);
+
+    res.status(200).json({ message: 'Password reset email sent.' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error sending reset email', error });
+  }
+};
+export const resetPassword = async (req: Request, res: Response) => {
+  try {
+    const { token } = req.params;
+    const { newPassword } = req.body;
+
+    // Verify the reset token
+    const decodedToken = jwtHelpers.verifyResetToken(token);
+
+    // Find user by ID in the token payload
+    const user = await User.findById(decodedToken.userId);
+
+    if (!user) {
+      return res.status(400).json({ message: 'User not found' });
+    }
+
+    // Hash the new password and update it
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+
+    // Clear the reset token fields in the database (optional)
+    // user.resetPasswordToken = undefined;
+    // user.resetPasswordExpires = undefined;
+
+    await user.save();
+
+    res.status(200).json({ message: 'Password reset successful' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error resetting password', error });
+  }
+};
+
 export const getAllUsers = catchAsync(async (req: Request, res: Response) => {
   const users: IUser[] = await UserService.getUsers(req);
   res.json({
