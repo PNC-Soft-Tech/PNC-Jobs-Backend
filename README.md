@@ -6,6 +6,51 @@ This API provides endpoints for managing users, including creating, reading, upd
 
 https://pnc-jobs-server.vercel.app/api/v1
 
+### Model Read Activities
+
+## /model-read-activities [POST] create model-read-activities
+
+```
+{
+    "model": "65142d4b1e8f29b1c882d4f1",
+  "startTime": "2024-09-23T14:30:00.000Z",
+}
+
+```
+
+## /model-read-activities[PUT] update model-read-activities
+
+## /model-read-activities[GET] gel all model-read-activities
+
+## /model-read-activities/:id[GET] gel single model-read-activities
+
+## /model-read-activities/:id [DELETE] delete model-read-activities
+
+### Model Practice Activities
+
+## /model-practice-activities [POST] create model-practice-activities
+
+```
+{
+     "model": "65142d4b1e8f29b1c882d4f1",
+  "startTime": "2024-09-23T14:30:00.000Z",
+  "endTime": "2023-09-23T15:00:00.000Z",
+  "totalMarks": 100,
+  "marksObtained": 85,
+  "correctCount": 17,
+  "incorrectCount": 3
+}
+
+```
+
+## /model-practice-activities[PUT] update model-practice-activities
+
+## /model-practice-activities[GET] gel all model-practice-activities
+
+## /model-practice-activities/:id[GET] gel single model-practice-activities
+
+## /model-practice-activities/:id [DELETE] delete model-practice-activities
+
 ### exam types
 
 ## /exam-types[POST] create exam-types

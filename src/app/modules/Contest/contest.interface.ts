@@ -1,4 +1,5 @@
 import { Types } from "mongoose";
+import { IExamType } from "../ExamType/examType.interface";
 
 export interface IContest {
   name: string; // Name of the quiz
@@ -8,4 +9,5 @@ export interface IContest {
   endContest: string;
   totalMarks: number;
   totalTime: number;
+  examType?: Types.ObjectId | IExamType;
 }

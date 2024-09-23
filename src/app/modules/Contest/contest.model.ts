@@ -7,6 +7,7 @@ const contestSchema = new Schema<IContest>(
     name: { type: String, required: true }, // Name of the contest
     description: { type: String, required: true }, // Description of the contest
     questions: [{ type: Types.ObjectId, ref: "Question", required: true }], // Array of references to Question models
+    examType: { type: Types.ObjectId, ref: "ExamType", required: false }, // Start time of the contest
     startContest: { type: String, required: true }, // Start time of the contest
     endContest: { type: String, required: true }, // End time of the contest
     totalMarks: { type: Number, required: true }, // Total marks for the contest
