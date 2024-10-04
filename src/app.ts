@@ -18,6 +18,7 @@ import { jobCircularRouter } from "./app/modules/JobCircular/jobCircular.route";
 import { examTypeRouter } from "./app/modules/ExamType/examType.route";
 import { modelReadActivityRouter } from "./app/modules/ModelReadActivity/modelReadActivity.route";
 import { modelPracticeActivityRouter } from "./app/modules/ModelPracticeActivity/modelPracticeActivity.route";
+import { LeaderboardRoute } from "./app/modules/Leaderboard/leaderboard.route";
 
 const app = express();
 
@@ -42,7 +43,7 @@ app.use("/api/v1/attendees", attendeeRouter);
 app.use("/api/v1/job-circulars", jobCircularRouter);
 app.use("/api/v1/model-read-activities", modelReadActivityRouter);
 app.use("/api/v1/model-practice-activities", modelPracticeActivityRouter);
-app.use("/api/v1/leaderboard", modelPracticeActivityRouter);
+app.use("/api/v1/leaderboard", LeaderboardRoute);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("welcome");

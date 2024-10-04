@@ -6,4 +6,4 @@ import { getLeaderboardData } from "./leaderboard.controller";
 const router = express.Router();
 router.get("/", getLeaderboardData);
 
-export const contestRouter = router;
+export const LeaderboardRoute = router;
