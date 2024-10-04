@@ -42,6 +42,7 @@ app.use("/api/v1/attendees", attendeeRouter);
 app.use("/api/v1/job-circulars", jobCircularRouter);
 app.use("/api/v1/model-read-activities", modelReadActivityRouter);
 app.use("/api/v1/model-practice-activities", modelPracticeActivityRouter);
+app.use("/api/v1/leaderboard", modelPracticeActivityRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("welcome");
